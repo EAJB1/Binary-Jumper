@@ -9,6 +9,8 @@ public class GameOverMenu : MonoBehaviour
     public GameObject gameOverMenuUI;
     public GameObject correctObj;
     public GameObject wrongObj;
+    //public GameObject CorrectText;
+    //public GameObject WrongText;
     public Text correctTxt;
     public Text wrongTxt;
     public static bool gameOverMenuIsActive = false;
@@ -23,8 +25,10 @@ public class GameOverMenu : MonoBehaviour
 
         // Get objects and text
         correctObj = GameObject.Find("CorrectText");
+        //correctObj = CorrectText;
         correctTxt = correctObj.GetComponent<Text>();
         wrongObj = GameObject.Find("WrongText");
+        //wrongObj = WrongText;
         wrongTxt = wrongObj.GetComponent<Text>();
     }
 

@@ -56,6 +56,8 @@ public class PauseMenu : MonoBehaviour
         QuestionController.correctCount = 0;
         QuestionController.wrongCount = 0;
 
+        BinaryStormController.moveSpeed = 5f;
+
         Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
     }

@@ -25,6 +25,7 @@ public class QuestionController : MonoBehaviour
     public GameObject inputFieldObj;
     public GameObject correctObj;
     public GameObject wrongObj;
+    //public GameObject Question;
 
     public Text questionTxt;
     public InputField inputField;
@@ -41,6 +42,7 @@ public class QuestionController : MonoBehaviour
     {
         // Find question object in scene and assign the text object to a variable
         questionTxtObj = GameObject.Find("Question");
+        //questionTxtObj = Question;
         questionTxt = questionTxtObj.GetComponent<Text>();
     }
 
@@ -50,7 +52,7 @@ public class QuestionController : MonoBehaviour
         // and all other menus are not active.
         if (PauseMenu.gameIsPaused
             && QuestionMenu.questionMenuIsActive && !PauseMenu.pauseMenuIsActive
-            || !GameOverMenu.gameOverMenuIsActive)
+            || !GameOverMenu.gameOverMenuIsActive && !QuestionMenu.transparentMenuIsActive)
         {
             // If ready then generate question
             if (!questionIsGenerated && !answerIsChecked && canGenerateQuestion && !canCheckAnswer)
@@ -93,8 +95,6 @@ public class QuestionController : MonoBehaviour
             {
                 // Change bool values
                 answerIsChecked = false;
-                //answerIsCorrect = false;
-                //answerIsWrong = false;
                 canResume = true;
             }
         }
@@ -140,8 +140,6 @@ public class QuestionController : MonoBehaviour
 
     public void CheckAnswer()
     {
-        // NOTE - display UI text accordingly
-
         // Reset 'correct' and 'wrong' before checking the answer
         answerIsCorrect = false;
         answerIsWrong = false;
@@ -153,7 +151,8 @@ public class QuestionController : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            print(e.Message);
+            //print(e.Message);
+            Debug.Log(e.Message);
         }
 
         // Convert int to binary
@@ -183,12 +182,12 @@ public class QuestionController : MonoBehaviour
             answerIsCorrect = true;
             answerIsWrong = false;
 
-            // Enable 'correct' obj and disable 'wrongObj'
+            // Enable 'correctObj' and disable 'wrongObj'
             correctObj.SetActive(true);
             wrongObj.SetActive(false);
 
             // Decrease storm
-            BinaryStormController.moveSpeed -= 2.5f;
+            BinaryStormController.moveSpeed -= 5f;
 
             // Increment correct count
             correctCount += 1;
@@ -199,12 +198,12 @@ public class QuestionController : MonoBehaviour
             answerIsWrong = true;
             answerIsCorrect = false;
 
-            // Enable 'wrong' obj and disable 'correctObj'
+            // Enable 'wrongObj' and disable 'correctObj'
             wrongObj.SetActive(true);
             correctObj.SetActive(false);
 
             // Increase storm
-            BinaryStormController.moveSpeed += 5;
+            BinaryStormController.moveSpeed += 2.5f;
 
             // Increment wrong coung
             wrongCount += 1;
@@ -213,20 +212,12 @@ public class QuestionController : MonoBehaviour
         else
         {
             Debug.Log("Invalid input");
-
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                //CheckAnswer();
-            }
         }
     }
 
     // Increment correct or wrong question counter score. Resume game on 'Return' key down.
     public void Resume()
     {
-        // NOTE - this is the place to increase or decrease the players question score
-        //        depending on their answer.
-
         // Disable question menu and resume game
         QuestionMenu.questionMenuIsActive = false;
         questionMenuUI.SetActive(false);

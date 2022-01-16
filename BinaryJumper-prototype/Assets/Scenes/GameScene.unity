@@ -156,7 +156,7 @@ RectTransform:
   - {fileID: 327872507}
   - {fileID: 247909911}
   m_Father: {fileID: 1040671628}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -234,7 +234,7 @@ RectTransform:
   - {fileID: 1141443717}
   - {fileID: 1331863745}
   m_Father: {fileID: 1040671628}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -317,7 +317,7 @@ RectTransform:
   - {fileID: 1480893812}
   - {fileID: 1664387699}
   m_Father: {fileID: 1040671628}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2566,10 +2566,10 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1739138857}
   - {fileID: 51975602}
   - {fileID: 32630279}
   - {fileID: 77941615}
+  - {fileID: 1739138857}
   - {fileID: 863330978}
   - {fileID: 1708465266}
   m_Father: {fileID: 0}
@@ -3112,7 +3112,19 @@ MonoBehaviour:
   m_CharacterLimit: 3
   m_OnSubmit:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1005625273}
+        m_TargetAssemblyTypeName: QuestionController, Assembly-CSharp
+        m_MethodName: ReadStringInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnDidEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -4505,7 +4517,7 @@ RectTransform:
   - {fileID: 566649924}
   - {fileID: 534790064}
   m_Father: {fileID: 1040671628}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

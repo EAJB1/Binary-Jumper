@@ -10,7 +10,7 @@ public class BinaryStormController : MonoBehaviour
     public GameObject[] storm1;
     public GameObject[] storm2;
     public GameObject gameOverMenuUI;
-    public static float moveSpeed = 5;
+    public static float moveSpeed = 5f;
     public float targetSpeed = 30f;
     public float switchMin, switchMax;
     public string storm1Name;
