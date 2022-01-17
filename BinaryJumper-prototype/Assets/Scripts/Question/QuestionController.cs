@@ -25,7 +25,6 @@ public class QuestionController : MonoBehaviour
     public GameObject inputFieldObj;
     public GameObject correctObj;
     public GameObject wrongObj;
-    //public GameObject Question;
 
     public Text questionTxt;
     public InputField inputField;
@@ -42,14 +41,12 @@ public class QuestionController : MonoBehaviour
     {
         // Find question object in scene and assign the text object to a variable
         questionTxtObj = GameObject.Find("Question");
-        //questionTxtObj = Question;
         questionTxt = questionTxtObj.GetComponent<Text>();
     }
 
     void Update()
     {
-        // If return key is down, game is paused, question menu is active,
-        // and all other menus are not active.
+        // If return key is down, game is paused, question menu is active, and all other menus are not active.
         if (PauseMenu.gameIsPaused
             && QuestionMenu.questionMenuIsActive && !PauseMenu.pauseMenuIsActive
             || !GameOverMenu.gameOverMenuIsActive && !QuestionMenu.transparentMenuIsActive)
@@ -175,7 +172,7 @@ public class QuestionController : MonoBehaviour
             correctAnswer = correctAnswerInt.ToString("D8");
         }
 
-        // Compare questionStr to correctAnswer
+        // Compare questionStr to correctAnswer:
         // If answer is correct
         if (questionStr == correctAnswer)
         {

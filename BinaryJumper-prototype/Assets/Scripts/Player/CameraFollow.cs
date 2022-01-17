@@ -10,11 +10,6 @@ public class CameraFollow : MonoBehaviour
 
     void LateUpdate()
     {
-        /*tempVec3.x = Target.position.x;
-        tempVec3.y = this.transform.position.y;
-        tempVec3.z = this.transform.position.z;
-        this.transform.position = tempVec3;*/
-
         if (Target != null)
         {
             tempVec3.x = Target.position.x;
