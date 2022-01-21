@@ -7,6 +7,7 @@ public class BinaryStormSpeed : MonoBehaviour
 {
     GameObject speedObj;
     public static Text speedTxt;
+    public int maxLength;
 
     private float current;
     private int currentInt;
@@ -31,7 +32,18 @@ public class BinaryStormSpeed : MonoBehaviour
             // Get moveSpeed
             current = BinaryStormController.moveSpeed;
             currentStr = current.ToString();
+            
+            //currentStr = BinaryStormController.moveSpeed.ToString();
+
             speedTxt.text = currentStr;
+
+            //speedStr = currentStr;
+            //speedTxt.text = speedStr;
         }
     }
+    /*
+    private void OnGUI()
+    {
+        speedStr = GUI.TextField(new Rect (180, 0, 0, 0), speedStr, maxLength);
+    }*/
 }
