@@ -56,7 +56,6 @@ public class GameOverMenu : MonoBehaviour
     {
         gameOverMenuIsActive = true;
         gameOverMenuUI.SetActive(true);
-        //Time.timeScale = 0f; // Freeze time
         PauseMenu.gameIsPaused = true;
 
         // Set text

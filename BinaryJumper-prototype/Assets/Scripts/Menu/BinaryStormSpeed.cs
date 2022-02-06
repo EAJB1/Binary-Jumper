@@ -31,10 +31,8 @@ public class BinaryStormSpeed : MonoBehaviour
         {
             // Get moveSpeed
             current = BinaryStormController.moveSpeed;
-            //currentStr = current.ToString();
-            
-            //currentStr = BinaryStormController.moveSpeed.ToString();
 
+            // Display speed
             speedTxt.text = current.ToString();
         }
     }

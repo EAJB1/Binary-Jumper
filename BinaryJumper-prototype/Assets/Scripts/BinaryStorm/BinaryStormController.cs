@@ -16,8 +16,6 @@ public class BinaryStormController : MonoBehaviour
     public string storm1Name;
     public string storm2Name;
 
-    //private float switchTime = 0f;
-
     void Update()
     {
         if (Target != null)

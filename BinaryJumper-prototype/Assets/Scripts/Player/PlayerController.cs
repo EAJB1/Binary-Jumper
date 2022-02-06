@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
         // If player is below the y value 3 then destroy object
         if (this.transform.position.y <= -10)
         {
-            Destroy(gameObject); // Make particle effect on death
+            Destroy(gameObject); // NOTE: Make particle effect on death
             isDead = true;
         }
     }
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "BinaryStorm")
         {
-            Destroy(gameObject); // Make particle effect on death
+            Destroy(gameObject); // NOTE: Make particle effect on death
             isDead = true;
         }
     }
