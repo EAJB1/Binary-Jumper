@@ -10,22 +10,19 @@ public class QuestionMenu : MonoBehaviour
     public static bool questionMenuIsActive = false;
     public static bool transparentMenuIsActive = false;
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        // If key press 'Enter', game is paused and Pause menu or Game Over menu aren't active, then pause game
+        // If key press 'Enter'
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (PauseMenu.gameIsPaused && questionMenuIsActive && QuestionController.canResume)
+            // If game is paused, Pause menu or Game Over menu are not active, then resume game.
+            if (PauseMenu.gameIsPaused && QuestionController.canResume && questionMenuIsActive && !PauseMenu.pauseMenuIsActive)
             {
                 Resume();
                 StartCoroutine(Wait());
             }
-            else if (!PauseMenu.gameIsPaused && !PauseMenu.pauseMenuIsActive || !GameOverMenu.gameOverMenuIsActive)
+            // If game is not paused, pause menu or gameover menu is not active, then pause game.
+            else if (!PauseMenu.gameIsPaused && !PauseMenu.pauseMenuIsActive || !PauseMenu.gameIsPaused && !GameOverMenu.gameOverMenuIsActive)
             {
                 Pause();
             }

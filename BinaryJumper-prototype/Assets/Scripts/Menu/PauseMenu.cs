@@ -13,10 +13,15 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            // If pause menu is active then on next key down, resume game
-            if (gameIsPaused && pauseMenuIsActive)
+            // (Normal resume) If game is paused, pause menu is active and question menu is not active, then resume game on next key down.
+            if (gameIsPaused && pauseMenuIsActive && !QuestionMenu.questionMenuIsActive)
             {
                 Resume();
+            }
+            // (Resume into question menu) If game is paused, pause menu is active and question menu is acitve, then resume but keep time paused.
+            else if (gameIsPaused && pauseMenuIsActive && QuestionMenu.questionMenuIsActive)
+            {
+                ResumeQuestionMenu();
             }
             // If game is paused and any other menus aren't active, activate pause menu.
             else if (!gameIsPaused && !QuestionMenu.questionMenuIsActive || !GameOverMenu.gameOverMenuIsActive)
@@ -37,9 +42,27 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        // If question menu is not active, resume the game normally.
+        if (!QuestionMenu.questionMenuIsActive)
+        {
+            pauseMenuIsActive = false;
+            pauseMenuUI.SetActive(false);
+            Time.timeScale = 1f; // Start time
+            gameIsPaused = false;
+        }
+        // If question menu is active, just disable the pause menu.
+        else if (QuestionMenu.questionMenuIsActive)
+        {
+            pauseMenuIsActive = false;
+            pauseMenuUI.SetActive(false);
+            gameIsPaused = true;
+        }
+    }
+
+    public void ResumeQuestionMenu()
+    {
         pauseMenuIsActive = false;
         pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f; // Start time
         gameIsPaused = false;
     }
 

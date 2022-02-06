@@ -9,22 +9,27 @@ public class QuestionController : MonoBehaviour
     public static bool isEasy = false;
     public static bool isMedium = false;
     public static bool isHard = false;
-
-    public bool questionIsGenerated = false;
-    public bool answerIsChecked = false;
     public static bool canGenerateQuestion = false;
-    public bool canCheckAnswer = false;
-    public bool answerIsCorrect = false;
     public static bool answerIsWrong = false;
     public static bool canResume = false;
     public static int correctCount = 0;
     public static int wrongCount = 0;
 
+    [Header("Bools")]
+    public bool questionIsGenerated = false;
+    public bool answerIsChecked = false;
+    public bool canCheckAnswer = false;
+    public bool answerIsCorrect = false;
+    public bool formatExceptionError = false;
+
+    [Header("Game Objects")]
     public GameObject questionMenuUI;
     public GameObject questionTxtObj;
     public GameObject inputFieldObj;
     public GameObject correctObj;
     public GameObject wrongObj;
+    public GameObject[] invalidInputText;
+    public GameObject currentInvalidInputText;
 
     public Text questionTxt;
     public InputField inputField;
@@ -33,9 +38,11 @@ public class QuestionController : MonoBehaviour
     public string questionStr = null;
     private string correctAnswerStr = null;
     private string correctAnswer = null;
+    
     private int charLength = 0;
     private int userInputInt = 0;
     private int correctAnswerInt = 0;
+    private int indexOfMessages;
 
     void Start()
     {
@@ -47,8 +54,7 @@ public class QuestionController : MonoBehaviour
     void Update()
     {
         // If return key is down, game is paused, question menu is active, and all other menus are not active.
-        if (PauseMenu.gameIsPaused
-            && QuestionMenu.questionMenuIsActive && !PauseMenu.pauseMenuIsActive
+        if (PauseMenu.gameIsPaused && QuestionMenu.questionMenuIsActive && !PauseMenu.pauseMenuIsActive
             || !GameOverMenu.gameOverMenuIsActive && !QuestionMenu.transparentMenuIsActive)
         {
             // If ready then generate question
@@ -74,25 +80,51 @@ public class QuestionController : MonoBehaviour
             // If ready then check answer
             if (Input.GetKeyDown(KeyCode.Return) && questionIsGenerated && !answerIsChecked && !canGenerateQuestion && canCheckAnswer)
             {
-                CheckAnswer();
+                // Activate input field
+                inputField.ActivateInputField();
+                inputField.GetComponent<CanvasGroup>().interactable = true;
+                inputField.Select();
 
-                // Deactivate input field if it's not null
-                inputField.DeactivateInputField();
-                inputField.GetComponent<CanvasGroup>().interactable = false;
+                // Disable any messages
+                foreach (GameObject msg in invalidInputText)
+                {
+                    msg.SetActive(false);
+                }
 
-                // Change bool values
-                questionIsGenerated = false;
-                answerIsChecked = true;
-                canCheckAnswer = false;
+                InputHandling();
+
+                // If there is a format exception error then set bools to check the answer again
+                if (formatExceptionError)
+                {
+                    questionIsGenerated = true;
+                    answerIsChecked = false;
+                    canCheckAnswer = true;
+                }
+                // If there is no error then check the answer and set bools to be ready to resume the game
+                else if (!formatExceptionError)
+                {
+                    CheckAnswer();
+
+                    questionIsGenerated = false;
+                    answerIsChecked = true;
+                    canCheckAnswer = false;
+                }
             }
 
             // If ready then resume
             if (Input.GetKeyDown(KeyCode.Return) && !questionIsGenerated && answerIsChecked && !canGenerateQuestion && !canCheckAnswer 
-                && !canResume && answerIsCorrect || answerIsWrong)
+                && !canResume)
             {
-                // Change bool values
-                answerIsChecked = false;
-                canResume = true;
+                if (answerIsCorrect || answerIsWrong)
+                {
+                    // Deactivate input field if it's still actives
+                    inputField.DeactivateInputField();
+                    inputField.GetComponent<CanvasGroup>().interactable = false;
+
+                    // Change bool values
+                    answerIsChecked = false;
+                    canResume = true;
+                }
             }
         }
     }
@@ -110,7 +142,7 @@ public class QuestionController : MonoBehaviour
         correctObj.SetActive(false);
         wrongObj.SetActive(false);
 
-        // Set question character length depending on the difficulty level
+        // Set question number length depending on the difficulty level
         if (isEasy)
         {
             charLength = 3; // Range of 4
@@ -127,7 +159,7 @@ public class QuestionController : MonoBehaviour
         // Generate random binary number with specified character length
         for (int i = 0; i <= charLength; i++)
         {
-            int randomNum = UnityEngine.Random.Range(0, 2);
+            int randomNum = UnityEngine.Random.Range(0, 2); // Range of 0 to 1
             questionStr += randomNum.ToString();
         }
 
@@ -135,22 +167,36 @@ public class QuestionController : MonoBehaviour
         questionTxt.text = questionStr;
     }
 
-    public void CheckAnswer()
+    public void InputHandling()
     {
-        // Reset 'correct' and 'wrong' before checking the answer
-        answerIsCorrect = false;
-        answerIsWrong = false;
+        // Reset bool before the check
+        formatExceptionError = false;
 
+        // Look for format exception error, mainly for null input.
         try
         {
             // Convert input from string to int
             userInputInt = System.Convert.ToInt32(userInputStr);
         }
-        catch (System.Exception e)
+        // If there is an error, display a helpful message
+        catch (FormatException)
         {
-            //print(e.Message);
-            Debug.Log(e.Message);
+            formatExceptionError = true;
+
+            // Choose random object from array
+            indexOfMessages = UnityEngine.Random.Range(0, invalidInputText.Length);
+            currentInvalidInputText = invalidInputText[indexOfMessages];
+
+            // Set object to active
+            currentInvalidInputText.SetActive(true);
         }
+    }
+
+    public void CheckAnswer()
+    {
+        // Reset 'correct' and 'wrong' before checking the answer
+        answerIsCorrect = false;
+        answerIsWrong = false;
 
         // Convert int to binary
         correctAnswerStr = System.Convert.ToString(userInputInt, 2);
@@ -173,6 +219,7 @@ public class QuestionController : MonoBehaviour
         }
 
         // Compare questionStr to correctAnswer:
+
         // If answer is correct
         if (questionStr == correctAnswer)
         {
@@ -183,7 +230,7 @@ public class QuestionController : MonoBehaviour
             correctObj.SetActive(true);
             wrongObj.SetActive(false);
 
-            // Decrease storm
+            // Decrease storm speed
             BinaryStormController.moveSpeed -= 5f;
 
             // Increment correct count
@@ -199,16 +246,11 @@ public class QuestionController : MonoBehaviour
             wrongObj.SetActive(true);
             correctObj.SetActive(false);
 
-            // Increase storm
+            // Increase storm speed
             BinaryStormController.moveSpeed += 2.5f;
 
-            // Increment wrong coung
+            // Increment wrong count
             wrongCount += 1;
-        }
-        // If answer is not a number and if they press enter again, then check answer.
-        else
-        {
-            Debug.Log("Invalid input");
         }
     }
 

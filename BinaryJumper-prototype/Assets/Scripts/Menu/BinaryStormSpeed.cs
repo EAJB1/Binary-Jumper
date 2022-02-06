@@ -31,19 +31,11 @@ public class BinaryStormSpeed : MonoBehaviour
         {
             // Get moveSpeed
             current = BinaryStormController.moveSpeed;
-            currentStr = current.ToString();
+            //currentStr = current.ToString();
             
             //currentStr = BinaryStormController.moveSpeed.ToString();
 
-            speedTxt.text = currentStr;
-
-            //speedStr = currentStr;
-            //speedTxt.text = speedStr;
+            speedTxt.text = current.ToString();
         }
     }
-    /*
-    private void OnGUI()
-    {
-        speedStr = GUI.TextField(new Rect (180, 0, 0, 0), speedStr, maxLength);
-    }*/
 }

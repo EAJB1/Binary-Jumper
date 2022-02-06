@@ -16,7 +16,7 @@ public class PlayerController_Old : MonoBehaviour
     private bool facingRight = true;
     private bool isGrounded;
     private bool isJumping;
-    private bool jumpKeyHeld;
+    private bool jumpKeyHeld = false;
     //private Vector2 counterJumpForce;
 
     public static bool isDead = false;
