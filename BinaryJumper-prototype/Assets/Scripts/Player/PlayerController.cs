@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     public static bool isDead = false;
 
+    public ParticleSystem fallDeathParticle, stormDeathParticle;
+
     void Start()
     {
         isDead = false;
@@ -73,10 +75,14 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
         }
 
-        // If player is below the y value 3 then destroy object
+        // If player is below the y value -10 then destroy object
         if (this.transform.position.y <= -10)
         {
-            Destroy(gameObject); // NOTE: Make particle effect on death
+            Destroy(gameObject);
+
+            // Play particle effect on falling death
+            fallDeathParticle.Play();
+            
             isDead = true;
         }
     }
@@ -85,7 +91,11 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "BinaryStorm")
         {
-            Destroy(gameObject); // NOTE: Make particle effect on death
+            Destroy(gameObject);
+            
+            // Play particle effect on storm death
+            stormDeathParticle.Play();
+            
             isDead = true;
         }
     }
