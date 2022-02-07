@@ -30,8 +30,9 @@ public class GameOverMenu : MonoBehaviour
 
     void Update()
     {
-        // If any key is pressed but not mouse buttons, reload the scene on the same game mode (easy/medium/hard)
-        if (Input.anyKeyDown && !(Input.GetMouseButtonDown(0) 
+        // If any key is pressed but not mouse buttons, reload the scene on the same game mode e.g. easy, medium, hard.
+        //  (The one they selected in the difficulty menu)
+        if (Input.GetKey(KeyCode.Return) && !(Input.GetMouseButtonDown(0) 
             || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)))
         {
             if (PauseMenu.gameIsPaused && gameOverMenuIsActive && PlayerController.isDead)
